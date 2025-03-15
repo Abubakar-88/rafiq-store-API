@@ -9,7 +9,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Maven ইনস্টল করুন (নির্দিষ্ট ভার্সন)
-RUN apt-get update && apt-get install -y maven=3.6.3-1
+RUN apt-get update && apt-get install -y maven
 
 # Maven ব্যবহার করে অ্যাপ্লিকেশন বিল্ড করুন (টেস্ট স্কিপ করুন)
 RUN mvn clean package -DskipTests
