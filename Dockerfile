@@ -15,4 +15,4 @@ RUN apt-get update && apt-get install -y maven
 RUN mvn clean package -DskipTests
 
 # JAR ফাইলটি রান করার কমান্ড
-CMD ["java", "-jar", "target/Rafiq-print-store.jar"]
+CMD ["java", "-jar", "target/Rafiq-print-store-0.0.1-SNAPSHOT.jar"]
