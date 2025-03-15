@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .cors(withDefaults()) // Enable CORS using WebConfig
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/sell-items/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/items/**").hasAnyRole("ADMIN","EDITOR")
