@@ -1,0 +1,16 @@
+# Base image হিসেবে OpenJDK 17 ব্যবহার করুন
+FROM openjdk:17-jdk-slim
+
+# ওয়ার্কিং ডিরেক্টরি সেট করুন
+WORKDIR /app
+
+# pom.xml এবং src ফোল্ডার কপি করুন
+COPY pom.xml .
+COPY src ./src
+
+# Maven ব্যবহার করে অ্যাপ্লিকেশন বিল্ড করুন
+RUN apt-get update && apt-get install -y maven
+RUN mvn clean package
+
+# JAR ফাইলটি রান করার কমান্ড
+CMD ["java", "-jar", "target/Rafiq-print-store.jar"]
