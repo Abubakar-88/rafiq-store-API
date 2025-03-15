@@ -24,7 +24,7 @@ import java.util.Set;
 @RestController
 @EnableTransactionManagement
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://rafiq-printing.netlify.app")
 public class AuthController {
 
     @Autowired

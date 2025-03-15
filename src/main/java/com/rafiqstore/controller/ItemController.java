@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/items")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://rafiq-printing.netlify.app")
 @RequiredArgsConstructor
 public class ItemController {
     private static final Logger log = LoggerFactory.getLogger(ItemController.class);

@@ -24,7 +24,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:3000") // Allow requests from this origin
+                        .allowedOrigins("https://rafiq-printing.netlify.app") // Allow requests from this origin
                         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS") // Allowed HTTP methods
                         .allowedHeaders("*") // Allow all headers
                         .exposedHeaders("Authorization", "Content-Disposition") // Expose specific headers to the client

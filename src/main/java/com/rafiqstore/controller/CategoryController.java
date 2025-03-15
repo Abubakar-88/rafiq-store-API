@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://rafiq-printing.netlify.app")
 public class CategoryController {
 
     @Autowired
