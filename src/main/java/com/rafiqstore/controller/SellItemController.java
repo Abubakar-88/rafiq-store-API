@@ -19,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/sell-items")
+@CrossOrigin(origins = "https://rafiq-printing.netlify.app")
 @RequiredArgsConstructor
 public class SellItemController {
     private final SellItemService sellItemService;
