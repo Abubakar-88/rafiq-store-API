@@ -107,7 +107,7 @@ public class ItemServiceImpl implements ItemService {
         Path filePath = pathDir.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // Avoid duplicate files
 
-        return fileName;// Return the file name for database storage
+        return fileName; // Return the file name for database storage
     }
     @Override
     public ItemResponseDTO getItemById(Long id) {

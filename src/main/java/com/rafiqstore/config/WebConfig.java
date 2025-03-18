@@ -1,6 +1,7 @@
 package com.rafiqstore.config;
 
 import com.rafiqstore.converter.StringToLocalDateTimeConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -15,6 +16,10 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
+
+    @Value("${image.upload.dir}")
+    private String uploadDir;
+
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new StringToLocalDateTimeConverter());
@@ -31,10 +36,12 @@ public class WebConfig implements WebMvcConfigurer{
                 .maxAge(3600);
     }
 
+
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/item/**")
-                .addResourceLocations("file:src/main/resources/static/images/item/");
+                .addResourceLocations("file:" + uploadDir + "/item/");
     }
 
     @Bean
