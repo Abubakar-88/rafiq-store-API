@@ -72,8 +72,8 @@ List<SellItem> findSellItemsWithDetailsByDateRange(@Param("startDate") LocalDate
             "CASE WHEN sd.item_id IS NOT NULL THEN i.name ELSE sd.customName END AS itemName, " + // itemName or customName
             "SUM(sd.quantity) AS totalQuantity, " + // totalQuantity
             "SUM(sd.quantity * sd.sellPrice) AS totalAmount " + // totalAmount
-            "FROM sellitem s " +
-            "JOIN sellitemdetail sd ON s.id = sd.sell_item_id " +
+            "FROM SellItem s " +
+            "JOIN SellItemDetail sd ON s.id = sd.sell_item_id " +
             "LEFT JOIN items i ON sd.item_id = i.id " + // LEFT JOIN to include items even if item_id is null
             "WHERE s.sellDate BETWEEN :startDate AND :endDate " +
             "AND (:itemId IS NULL OR sd.item_id = :itemId) " + // Filter by itemId (if provided)
