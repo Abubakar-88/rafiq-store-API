@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/items/**").hasAnyRole("ADMIN","EDITOR")
+                        .requestMatchers("/api/sell-items/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/employees/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/editor/**").hasRole("EDITOR")
                         .requestMatchers("/images/item/**").permitAll()

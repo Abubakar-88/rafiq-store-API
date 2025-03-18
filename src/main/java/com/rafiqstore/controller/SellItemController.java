@@ -24,7 +24,7 @@ import java.util.Map;
 public class SellItemController {
     private final SellItemService sellItemService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<SellItemResponseDTO> sellItem(@RequestBody SellItemRequestDTO sellItemRequest) {
         SellItemResponseDTO responseDTO = sellItemService.sellItem(sellItemRequest);
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
