@@ -9,6 +9,7 @@ import com.rafiqstore.exception.ResourceAlreadyExistsException;
 import com.rafiqstore.exception.ResourceNotFoundException;
 import com.rafiqstore.repository.CategoryRepository;
 import com.rafiqstore.repository.ItemRepository;
+import com.rafiqstore.services.S3Service;
 import com.rafiqstore.services.service.ItemService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -43,7 +44,8 @@ public class ItemServiceImpl implements ItemService {
     private final ModelMapper modelMapper;
     private final EntityManager entityManager;
     private static final Logger log = LoggerFactory.getLogger(ItemService.class);
-
+    @Autowired
+    private S3Service s3Service;
     @Override
     public ItemResponseDTO createItem(ItemRequestDTO itemRequestDTO, MultipartFile imageFile) throws IOException {
         // Check if an item with the same name already exists
@@ -53,6 +55,7 @@ public class ItemServiceImpl implements ItemService {
         if (itemRequestDTO.getCategoryId() == null) {
             throw new IllegalArgumentException("Category ID cannot be null");
         }
+
         // Fetch the category by ID
         Category category = categoryRepository.findById(itemRequestDTO.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + itemRequestDTO.getCategoryId()));
@@ -61,18 +64,19 @@ public class ItemServiceImpl implements ItemService {
         Item item = modelMapper.map(itemRequestDTO, Item.class);
         item.setCategory(category);
         item.setId(null); // Ensure id is null for new entities
-        // Save the image and get the file path or URL
-        if (!imageFile.isEmpty()){
-            String fileName = saveImage(imageFile, item);
-            item.setImage(fileName);
+
+        // Save the image to Cloudflare R2 and get the file URL
+        if (!imageFile.isEmpty()) {
+            String imageUrl = s3Service.uploadFile(imageFile, item.getName()); // Use S3Service to upload
+            item.setImage(imageUrl); // Set the image URL in the item
         }
+
         // Handle null stock
         if (itemRequestDTO.getStock() == null) {
             item.setInStock(false); // If stock is null, set inStock to false
         } else {
             item.setInStock(itemRequestDTO.getStock() > 0); // Set inStock based on stock value
         }
-
 
         log.info("Before saving: Item version = {}", item.getVersion());
         Item savedItem = itemRepository.save(item);
@@ -82,32 +86,30 @@ public class ItemServiceImpl implements ItemService {
         return modelMapper.map(savedItem, ItemResponseDTO.class);
     }
     public String saveImage(MultipartFile file, Item item) throws IOException {
-        // If no file is provided, return null (indicating no image was uploaded)
         if (file == null || file.isEmpty()) {
-            return null; // Image upload is optional
+            log.info("No file provided for item: {}", item.getName());
+            return null;
         }
 
-        // Ensure the upload directory exists
         Path pathDir = Paths.get(uploadDir + "/item");
         if (!Files.exists(pathDir)) {
-            Files.createDirectories(pathDir); // Create directory if it doesn't exist
+            log.info("Creating directory: {}", pathDir);
+            Files.createDirectories(pathDir);
         }
 
-        // Extract the file extension
         String originalFileName = file.getOriginalFilename();
         if (originalFileName == null || originalFileName.lastIndexOf(".") == -1) {
             throw new IllegalArgumentException("Invalid file name or extension");
         }
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-        // Generate a unique file name
         String fileName = item.getName() + "_" + UUID.randomUUID() + extension;
-
-        // Save the file to the upload directory
         Path filePath = pathDir.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING); // Avoid duplicate files
 
-        return fileName; // Return the file name for database storage
+        log.info("Saving file: {}", filePath);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return fileName;
     }
     @Override
     public ItemResponseDTO getItemById(Long id) {

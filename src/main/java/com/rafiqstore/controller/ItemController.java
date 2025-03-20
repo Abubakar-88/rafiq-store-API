@@ -27,8 +27,7 @@ public class ItemController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ItemResponseDTO> createItem(@ModelAttribute ItemRequestDTO itemRequestDTO,
-                                                      @RequestPart("imageFile")MultipartFile imageFile) {
-
+                                                      @RequestPart("imageFile") MultipartFile imageFile) {
         try {
             ItemResponseDTO responseDTO = itemService.createItem(itemRequestDTO, imageFile);
             return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
