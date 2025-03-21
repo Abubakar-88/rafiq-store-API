@@ -37,6 +37,6 @@ public class S3Service {
         );
 
         // Return the file URL
-        return "https://" + bucketName + ".r2.cloudflarestorage.com/" + fileName;
+        return "http://" + bucketName + ".r2.cloudflarestorage.com/" + fileName;
     }
 }
