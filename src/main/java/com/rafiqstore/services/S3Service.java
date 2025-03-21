@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
@@ -27,20 +28,18 @@ public class S3Service {
             return null;
         }
 
-        // Generate a unique file name
         String fileName = itemName + "_" + UUID.randomUUID() + ".jpg";
 
-        // Upload the file to R2
+        // Upload the file to Cloudflare R2
         s3Client.putObject(PutObjectRequest.builder()
                         .bucket(bucketName)
                         .key(fileName)
                         .build(),
-                software.amazon.awssdk.core.sync.RequestBody.fromInputStream(
-                        file.getInputStream(), file.getSize())
-        );
+                RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-        // Return the public R2.dev file URL
-        return publicBucketUrl + "/" + fileName;
+        // Return the publicly accessible file URL
+        return "https://" + bucketName + ".r2.dev/" + fileName;
     }
+
 }
 
