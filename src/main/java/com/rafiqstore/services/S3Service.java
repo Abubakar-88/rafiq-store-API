@@ -18,6 +18,8 @@ public class S3Service {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
+    @Value("${cloud.r2.public-url}")
+    private String publicBucketUrl;
 
     public String uploadFile(MultipartFile file, String itemName) throws IOException {
         if (file == null || file.isEmpty()) {
@@ -36,7 +38,7 @@ public class S3Service {
                         file.getInputStream(), file.getSize())
         );
 
-        // Return the file URL
-        return "https://" + bucketName + ".r2.cloudflarestorage.com/" + fileName;
+        // Return the public R2.dev file URL
+        return publicBucketUrl + "/" + fileName;
     }
 }
