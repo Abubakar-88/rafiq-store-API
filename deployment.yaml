@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rafiq-print-store-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rafiq-print-store
+  template:
+    metadata:
+      labels:
+        app: rafiq-print-store
+    spec:
+      containers:
+        - name: rafiq-print-store-container
+          image: voroshait99/rafiq-print-store:latest  # Docker Hub ইমেজ
+          ports:
+            - containerPort: 8080
+

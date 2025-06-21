@@ -70,11 +70,6 @@ public class ProfitServiceImpl implements ProfitService {
     }
 
 
-//    @Override
-//    public ProfitResponse getProfitReport(LocalDateTime startDate, LocalDateTime endDate) {
-//        double profits = profitRepository.findByReportDateBetween(startDate, endDate);
-//        return new ProfitResponse(profits);
-//    }
 @Override
 public List<SellItemResponseDTO> getSellItemsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
     List<SellItem> sellItems = sellItemRepository.findSellItemsWithDetailsByDateRange(startDate, endDate);
@@ -107,52 +102,7 @@ public List<SellItemResponseDTO> getSellItemsByDateRange(LocalDateTime startDate
             ))
             .collect(Collectors.toList());
 }
-//    @Override
-//    public List<SellItemResponseDTO> getSellItemsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-//        List<SellItem> sellItems = sellItemRepository.findBySellDateBetween(startDate, endDate);
-//
-//        // Map SellItem entities to SellItemResponseDTO
-//        return sellItems.stream()
-//                .map(sellItem -> {
-//                    SellItemResponseDTO dto = new SellItemResponseDTO();
-//                    dto.setId(sellItem.getId());
-//                    dto.setBuyerName(sellItem.getBuyerName());
-//                    dto.setTotalPaidAmount(sellItem.getTotalPaidAmount());
-//                    dto.setTotalDueAmount(sellItem.getTotalDueAmount());
-//                    dto.setTotalItemAmount(sellItem.getTotalItemAmount());
-//                    dto.setSellDate(sellItem.getSellDate());
-//                    dto.setInvoiceNumber(sellItem.getInvoiceNumber());
-//                   // dto.setEncodedInvoice(sellItem.getEncodedInvoice()); // নতুন ফিল্ড যোগ করা হয়েছে
-//
-//                    // SellItemDetails কে SellItemDetailResponseDTO তে ম্যাপ করুন
-//                    dto.setItems(sellItem.getSellItemDetails().stream()
-//                            .map(detail -> {
-//                                SellItemDetailResponseDTO detailDto = new SellItemDetailResponseDTO();
-//                                detailDto.setItemId(detail.getItem().getId()); // itemId সেট করুন (Item থেকে)
-//                                detailDto.setItemName(detail.getItem().getName()); // itemName সেট করুন (Item থেকে)
-//                                detailDto.setQuantity(detail.getQuantity()); // quantity সেট করুন
-//                                detailDto.setSellPrice(detail.getSellPrice()); // sellPrice সেট করুন
-//                                return detailDto;
-//                            })
-//                            .collect(Collectors.toList()));
-//
-//                    // Invoices কে InvoiceResponseDTO তে ম্যাপ করুন
-////                    dto.setInvoices(sellItem.getInvoices().stream()
-////                            .map(invoice -> {
-////                                InvoiceResponseDTO invoiceDto = new InvoiceResponseDTO();
-////                                invoiceDto.setId(invoice.getId());
-////                                invoiceDto.setInvoiceNumber(invoice.getInvoiceNumber());
-////                                invoiceDto.setGeneratedDate(invoice.getGeneratedDate()); // generatedDate সেট করুন
-////                                invoiceDto.setBuyerName(sellItem.getBuyerName()); // buyerName সেট করুন (SellItem থেকে)
-////                                invoiceDto.setTotalAmount(invoice.getTotalAmount()); // totalAmount সেট করুন
-////                                return invoiceDto;
-////                            })
-////                            .collect(Collectors.toList()));
-//
-//                    return dto;
-//                })
-//                .collect(Collectors.toList());
-//    }
+
 
 
 }

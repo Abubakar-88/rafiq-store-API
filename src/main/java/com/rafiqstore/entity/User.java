@@ -19,6 +19,7 @@ public class User {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles; // Roles: ADMIN, EDITOR, USER
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private PasswordResetToken passwordResetToken;
