@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rafiq-print-store-deployment
+  name: rafiq-print-store
+  labels:
+    app: rafiq-print-store
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: rafiq-print-store
@@ -13,8 +15,27 @@ spec:
         app: rafiq-print-store
     spec:
       containers:
-        - name: rafiq-print-store-container
-          image: voroshait99/rafiq-print-store:latest  # Docker Hub ইমেজ
+        - name: rafiq-print-store
+          image: your-dockerhub-username/rafiq-print-store:latest
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
 
