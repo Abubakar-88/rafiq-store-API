@@ -16,9 +16,10 @@ spec:
     spec:
       containers:
         - name: rafiq-print-store
-          image: your-dockerhub-username/rafiq-print-store:latest
+          image: voroshait99/rafiq-print-store:latest
           ports:
             - containerPort: 8080
+          command: ["java", "-jar", "/app/app.jar"]
           resources:
             requests:
               memory: "512Mi"
