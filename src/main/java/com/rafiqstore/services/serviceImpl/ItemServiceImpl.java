@@ -42,7 +42,6 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
-    private final EntityManager entityManager;
     private static final Logger log = LoggerFactory.getLogger(ItemService.class);
     @Autowired
     private S3Service s3Service;
