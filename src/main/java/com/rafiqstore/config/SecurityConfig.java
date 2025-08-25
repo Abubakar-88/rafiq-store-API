@@ -36,6 +36,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(withDefaults()) // Enable CORS using WebConfig
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","EDITOR")
@@ -44,13 +51,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/employees/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/editor/**").hasRole("EDITOR")
                         .requestMatchers("/images/item/**").permitAll()
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**"
-                        ).permitAll()
                         .anyRequest().authenticated()
 
                 )
