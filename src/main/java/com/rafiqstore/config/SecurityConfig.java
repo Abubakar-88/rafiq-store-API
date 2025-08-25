@@ -32,17 +32,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        String[] SWAGGER_PATHS = {
+                "/swagger-ui.html",
+                "/swagger-ui/**",
+                "/v3/api-docs",
+                "/v3/api-docs/**",
+                "/swagger-resources/**",
+                "/webjars/**"
+        };
+
+
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(withDefaults()) // Enable CORS using WebConfig
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/swagger-ui/**",
-                                "/v3/api-docs",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
-                                "/webjars/**"
-                        ).permitAll()
+                        .requestMatchers(SWAGGER_PATHS).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","EDITOR")
