@@ -42,6 +42,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/employees/**").hasAnyRole("ADMIN","EDITOR")
                         .requestMatchers("/api/editor/**").hasRole("EDITOR")
                         .requestMatchers("/images/item/**").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
 
                 )
